@@ -2,7 +2,7 @@
 
 A clean, modern tool to open any URL in multiple browser tabs with smart random delays to prevent crashes.
 
-**[Live Demo →](https://your-username.github.io/tabblast)**
+**[Live Demo →](https://sk9910084.github.io/Multy-browser/)**
 
 ---
 
