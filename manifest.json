@@ -1,0 +1,16 @@
+{
+  "name": "StreamVerse – Free Live TV",
+  "short_name": "StreamVerse",
+  "description": "Watch 20+ free live TV channels. No signup required.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080810",
+  "theme_color": "#ff4757",
+  "orientation": "any",
+  "icons": [
+    { "src": "https://via.placeholder.com/192x192/ff4757/FFFFFF?text=SV", "sizes": "192x192", "type": "image/png" },
+    { "src": "https://via.placeholder.com/512x512/ff4757/FFFFFF?text=SV", "sizes": "512x512", "type": "image/png" }
+  ],
+  "categories": ["entertainment", "lifestyle"],
+  "screenshots": []
+}
