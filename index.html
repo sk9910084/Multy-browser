@@ -1,174 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TabBlast — Multi-Tab Opener</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Google AdSense placeholder (replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID) -->
-  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StreamVerse - Free Live TV streaming. Watch News, Sports, Movies, Kids and Music channels for free. No signup required.">
+  <meta name="keywords" content="free live tv, iptv, live streaming, news channels, sports live, free tv online">
+  <meta name="author" content="StreamVerse">
+  <meta name="theme-color" content="#0a0a12">
+  <title>StreamVerse – Free Live TV</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📺</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark">
 
-  <!-- ═══════════════════════════════════════════════════
-       TOP BANNER AD
-  ═══════════════════════════════════════════════════ -->
-  <div class="ad-banner ad-top" aria-label="Advertisement">
-    <span class="ad-label">Advertisement</span>
-    <!-- Replace this comment with your actual ad code -->
-    <!-- <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="XXXXXXXXXX"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
-    <div class="ad-placeholder">[ Top Banner Ad — 728×90 ]</div>
+  <div id="offlineBanner">📡 No internet connection — check your network</div>
+
+  <div id="loader">
+    <div class="loader-logo"><span>📺</span><span class="loader-word">Stream<em>Verse</em></span></div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <p class="loader-sub">Loading channels...</p>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════
-       MAIN APP
-  ═══════════════════════════════════════════════════ -->
-  <main class="container">
+  <div id="app">
 
-    <header class="hero">
-      <div class="logo-wrap">
-        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="8" width="24" height="18" rx="3" stroke="currentColor" stroke-width="2"/>
-          <rect x="8" y="14" width="24" height="18" rx="3" fill="var(--surface)" stroke="currentColor" stroke-width="2"/>
-          <rect x="14" y="20" width="24" height="18" rx="3" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
-        </svg>
-        <h1 class="logo-text">Tab<span>Blast</span></h1>
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-logo"><span>📺</span><span class="logo-word">Stream<em>Verse</em></span></div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="home"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></a>
+        <a href="#" class="nav-item" data-page="livetv"><span class="nav-icon">📡</span><span class="nav-label">Live TV</span><span class="live-dot"></span></a>
+        <a href="#" class="nav-item" data-page="guide"><span class="nav-icon">📋</span><span class="nav-label">TV Guide</span></a>
+        <a href="#" class="nav-item" data-page="favorites"><span class="nav-icon">❤️</span><span class="nav-label">Favorites</span><span class="fav-count" id="favCount">0</span></a>
+      </nav>
+      <div class="sidebar-categories">
+        <p class="sidebar-heading">Categories</p>
+        <a href="#" class="cat-item active" data-cat="All"><span>🌐</span> All Channels</a>
+        <a href="#" class="cat-item" data-cat="News"><span>📰</span> News</a>
+        <a href="#" class="cat-item" data-cat="Sports"><span>⚽</span> Sports</a>
+        <a href="#" class="cat-item" data-cat="Movies"><span>🎬</span> Movies</a>
+        <a href="#" class="cat-item" data-cat="Entertainment"><span>🎭</span> Entertainment</a>
+        <a href="#" class="cat-item" data-cat="Kids"><span>🧒</span> Kids</a>
+        <a href="#" class="cat-item" data-cat="Music"><span>🎵</span> Music</a>
       </div>
-      <p class="tagline">Open any URL across multiple tabs — instantly.</p>
-    </header>
+      <div class="sidebar-ad">
+        <div class="ad-box"><span class="ad-label">Ad</span><p>📱 Get StreamVerse App</p><small>Install on your device</small></div>
+      </div>
+    </aside>
 
-    <section class="card" id="main-card">
-
-      <!-- URL Input -->
-      <div class="field">
-        <label for="url-input">Target URL</label>
-        <div class="input-wrap">
-          <svg class="input-icon" viewBox="0 0 20 20" fill="none">
-            <path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4c-3.53 0-6.4-2.87-6.4-6.4S6.47 3.6 10 3.6 16.4 6.47 16.4 10 13.53 16.4 10 16.4zM7 10h6M10 7v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input
-            type="url"
-            id="url-input"
-            placeholder="https://example.com"
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <button class="paste-btn" id="paste-btn" title="Paste from clipboard">
-            <svg viewBox="0 0 20 20" fill="none">
-              <rect x="7" y="3" width="10" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M5 5H4a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-1" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-          </button>
+    <div class="main-wrap">
+      <header class="topbar">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search channels, categories...">
+          <button class="search-clear hidden" id="searchClear">✕</button>
         </div>
-        <span class="error-msg" id="url-error"></span>
+        <div class="topbar-actions">
+          <button class="icon-btn" id="themeToggle" title="Toggle theme">🌙</button>
+          <button class="icon-btn hidden" id="installBtn" title="Install App">📲</button>
+          <div class="live-badge">🔴 LIVE</div>
+        </div>
+      </header>
+
+      <div class="ad-banner-top">
+        <div class="ad-placeholder"><span class="ad-tag">Ad</span> 🎯 Premium Streaming — Unlock 500+ Channels Today</div>
       </div>
 
-      <!-- Tab Count Input -->
-      <div class="field field-row">
-        <div class="field-col">
-          <label for="tab-count">Number of Tabs</label>
-          <div class="number-wrap">
-            <button class="num-btn" id="decrement" aria-label="Decrease">−</button>
-            <input
-              type="number"
-              id="tab-count"
-              value="5"
-              min="1"
-              max="20"
-              aria-label="Number of tabs"
-            />
-            <button class="num-btn" id="increment" aria-label="Increase">+</button>
+      <!-- Search Results -->
+      <section id="searchResults" class="content-section hidden">
+        <div class="section-head"><h2>🔍 Search Results <span id="searchResultCount" class="count-badge"></span></h2></div>
+        <div class="channel-grid" id="searchGrid"></div>
+        <div class="empty-state" id="searchEmpty" style="display:none"><span>🔍</span><h3>No channels found</h3><p>Try a different search term</p></div>
+      </section>
+
+      <!-- HOME -->
+      <section id="page-home" class="page active">
+        <div class="hero-slider" id="heroSlider">
+          <div class="hero-slides" id="heroSlides"></div>
+          <div class="hero-dots" id="heroDots"></div>
+          <button class="hero-arrow hero-prev" id="heroPrev">‹</button>
+          <button class="hero-arrow hero-next" id="heroNext">›</button>
+        </div>
+
+        <div class="content-section">
+          <div class="section-head"><h2>🔥 Trending Now</h2><a href="#" class="see-all" data-page="livetv">See All →</a></div>
+          <div class="channels-scroll" id="trendingRow"></div>
+        </div>
+
+        <div class="ad-strip">
+          <div class="ad-placeholder"><span class="ad-tag">Ad</span> 📺 Best Smart TVs — Shop Now & Save Up to 40%</div>
+        </div>
+
+        <div class="content-section">
+          <div class="section-head"><h2>📂 Browse by Category</h2></div>
+          <div class="cats-grid" id="catsGrid"></div>
+        </div>
+
+        <div class="content-section">
+          <div class="section-head"><h2>📰 News Channels</h2><a href="#" class="see-all" data-cat="News">See All →</a></div>
+          <div class="channels-scroll" id="newsRow"></div>
+        </div>
+
+        <div class="content-section" id="recentSection" style="display:none">
+          <div class="section-head"><h2>🕘 Recently Watched</h2></div>
+          <div class="channels-scroll" id="recentRow"></div>
+        </div>
+
+        <div class="ad-strip">
+          <div class="ad-placeholder"><span class="ad-tag">Ad</span> 🎮 Gaming Channels Live Now — Don't Miss Out</div>
+        </div>
+
+        <div class="content-section">
+          <div class="section-head"><h2>🎭 Entertainment</h2><a href="#" class="see-all" data-cat="Entertainment">See All →</a></div>
+          <div class="channels-scroll" id="entertainRow"></div>
+        </div>
+
+        <div class="content-section">
+          <div class="section-head"><h2>🎵 Music Channels</h2><a href="#" class="see-all" data-cat="Music">See All →</a></div>
+          <div class="channels-scroll" id="musicRow"></div>
+        </div>
+      </section>
+
+      <!-- LIVE TV -->
+      <section id="page-livetv" class="page">
+        <div class="page-hero-bar">
+          <h1>📡 Live TV</h1>
+          <div class="filter-bar" id="filterBar">
+            <button class="filter-btn active" data-cat="All">All</button>
+            <button class="filter-btn" data-cat="News">📰 News</button>
+            <button class="filter-btn" data-cat="Sports">⚽ Sports</button>
+            <button class="filter-btn" data-cat="Movies">🎬 Movies</button>
+            <button class="filter-btn" data-cat="Entertainment">🎭 Entertainment</button>
+            <button class="filter-btn" data-cat="Kids">🧒 Kids</button>
+            <button class="filter-btn" data-cat="Music">🎵 Music</button>
           </div>
-          <span class="hint">Max 20 tabs</span>
         </div>
+        <div class="channel-grid" id="liveGrid"></div>
+        <div class="ad-strip">
+          <div class="ad-placeholder"><span class="ad-tag">Ad</span> ⚽ Live Sports Streaming — Sign Up Free</div>
+        </div>
+      </section>
 
-        <div class="field-col delay-info">
-          <label>Delay Mode</label>
-          <div class="delay-badge">
-            <svg viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/>
-              <path d="M8 5v3.5l2 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-            Random 1–5 sec
+      <!-- TV GUIDE -->
+      <section id="page-guide" class="page">
+        <div class="page-hero-bar"><h1>📋 TV Guide</h1><p class="page-subtitle">Today's programming schedule</p></div>
+        <div class="guide-container" id="guideContainer"></div>
+      </section>
+
+      <!-- FAVORITES -->
+      <section id="page-favorites" class="page">
+        <div class="page-hero-bar"><h1>❤️ My Favorites</h1></div>
+        <div class="channel-grid" id="favGrid"></div>
+        <div class="empty-state hidden" id="favEmpty">
+          <span>💔</span><h3>No favorites yet</h3>
+          <p>Tap the ❤️ on any channel card to save it here</p>
+          <button class="btn-primary" onclick="showPage('livetv')">Browse Channels</button>
+        </div>
+      </section>
+
+    </div><!-- /main-wrap -->
+  </div><!-- /app -->
+
+  <!-- VIDEO PLAYER MODAL -->
+  <div id="playerModal" class="player-modal hidden">
+    <div class="player-overlay" id="playerOverlay"></div>
+    <div class="player-container">
+      <div class="player-header">
+        <div class="player-channel-info">
+          <img id="playerLogo" src="" alt="" loading="lazy">
+          <div><h3 id="playerName">Channel</h3><span class="player-live-badge">🔴 LIVE</span></div>
+        </div>
+        <div class="player-header-actions">
+          <button class="player-btn" id="playerFavBtn">🤍</button>
+          <button class="player-btn close-btn" id="closePlayer">✕</button>
+        </div>
+      </div>
+      <div class="player-body">
+        <video id="videoPlayer" autoplay playsinline></video>
+        <div class="player-loading" id="playerLoading"><div class="spinner"></div><p>Connecting...</p></div>
+        <div class="player-error hidden" id="playerError">
+          <span>📡</span><h4>Stream unavailable</h4><p>Channel may be temporarily offline</p>
+          <button class="btn-primary" id="retryBtn">↻ Retry</button>
+        </div>
+        <div class="custom-controls" id="customControls">
+          <div class="controls-bar">
+            <div class="controls-left">
+              <button class="ctrl-btn" id="muteBtn">🔊</button>
+              <input type="range" id="volRange" min="0" max="1" step="0.05" value="1" class="vol-range">
+            </div>
+            <div class="controls-center"><span class="live-indicator">● LIVE</span></div>
+            <div class="controls-right">
+              <button class="ctrl-btn" id="pipBtn" title="Picture in Picture">⧉</button>
+              <button class="ctrl-btn" id="fsBtn">⛶</button>
+            </div>
           </div>
-          <span class="hint">Prevents browser crash</span>
         </div>
       </div>
-
-      <!-- MIDDLE AD -->
-      <div class="ad-banner ad-middle" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <!-- Replace with actual ad code -->
-        <!-- <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
-        <div class="ad-placeholder">[ Middle Ad — 468×60 ]</div>
+      <div class="player-footer">
+        <p id="nowPlayingDesc" class="now-playing-text">Live broadcast</p>
+        <div class="player-tags" id="playerTags"></div>
       </div>
-
-      <!-- Progress Bar -->
-      <div class="progress-wrap" id="progress-wrap" aria-live="polite">
-        <div class="progress-header">
-          <span id="progress-text">Ready</span>
-          <span id="progress-count"></span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-bar" id="progress-bar"></div>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="btn-group">
-        <button class="btn btn-primary" id="open-btn">
-          <svg viewBox="0 0 20 20" fill="none">
-            <path d="M10 3v14M3 10l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Open Tabs
-        </button>
-        <button class="btn btn-danger" id="stop-btn" disabled>
-          <svg viewBox="0 0 20 20" fill="none">
-            <rect x="5" y="5" width="10" height="10" rx="1" fill="currentColor"/>
-          </svg>
-          Stop
-        </button>
-      </div>
-
-      <!-- Status Log -->
-      <div class="log-wrap" id="log-wrap">
-        <ul class="log-list" id="log-list"></ul>
-      </div>
-
-    </section>
-
-    <!-- Results summary -->
-    <div class="summary" id="summary" aria-live="polite"></div>
-
-  </main>
-
-  <!-- ═══════════════════════════════════════════════════
-       BOTTOM STICKY AD
-  ═══════════════════════════════════════════════════ -->
-  <div class="ad-banner ad-sticky" aria-label="Advertisement">
-    <span class="ad-label">Advertisement</span>
-    <!-- Replace with actual ad code -->
-    <!-- <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="XXXXXXXXXX"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
-    <div class="ad-placeholder">[ Sticky Bottom Ad — 320×50 ]</div>
+    </div>
   </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">📺 Stream<em>Verse</em></div>
+        <p>Free live TV streaming. All streams are publicly available third-party sources.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="#" onclick="showPage('home')">Home</a><a href="#" onclick="showPage('livetv')">Live TV</a><a href="#" onclick="showPage('guide')">TV Guide</a><a href="#" onclick="showPage('favorites')">Favorites</a></div>
+        <div class="footer-col"><h4>Categories</h4><a href="#">News</a><a href="#">Sports</a><a href="#">Movies</a><a href="#">Kids</a></div>
+        <div class="footer-col"><h4>Info</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Disclaimer</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StreamVerse — Free live TV aggregator. We do not host any video content.</p>
+      <p class="footer-disclaimer">⚠️ All streams are publicly available. StreamVerse is not responsible for content accuracy or availability.</p>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
